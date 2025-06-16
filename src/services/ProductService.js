@@ -1,4 +1,4 @@
-const {buscarProdutoPorId,listarProdutos,criarProduto,atualizarProduto,deletarProduto} = require("../repositories/product.repository")
+const {buscarProdutoPorId,listarProdutos,criarProduto,atualizarProduto,deletarProduto} = require("../repositories/ProductRepository.js")
 
 async function listarProdutosService(page = 1, limit = 5) {
   return await listarProdutos(page, limit)

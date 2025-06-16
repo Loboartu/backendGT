@@ -17,12 +17,7 @@ app.use(
   })
 )
 
-
-app.use("/api", ProductRoute)
-
-app.get("/", (req, res) => {
-  res.send("API rodando!")
-})
+app.use('/v1/product', ProductRoute)
 
 app.listen(port, () => {
   console.log(`Documentação: http://localhost:${port}/docs`)
