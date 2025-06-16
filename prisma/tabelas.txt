@@ -12,7 +12,7 @@ description: Coluna do tipo STRING e de preenchimento opcional que armazena a de
 price: Coluna do tipo FLOAT e de preenchimento obrigatório que armazena o preço do produto.
 price_with_discount: Coluna do tipo FLOAT e de preenchimento obrigatório que armazena o preço do produto com desconto.
 
-
+//Em sql
 CREATE TABLE produtos (
   id INT PRIMARY KEY,
   enabled BOOLEAN DEFAULT ,
@@ -25,7 +25,7 @@ CREATE TABLE produtos (
   price_with_discount  NOT NULL
 );
 
-
+//Em sql
 Requisito 04 - Criar a tabela de imagens do produto
 
 O objetivo deste requisito é criar a tabela de imagens dos produtos no banco de dados utilizando o Sequelize ORM. A tabela deve conter as colunas a seguir:
@@ -42,3 +42,29 @@ CREATE TABLE imagens_produto (
   enabled BOOLEAN DEFAULT ,
   path VARCHAR(100) NOT NULL
 );
+
+----------------------------------------------------------------------------------------------
+//Tabela 03 - em prisma
+
+model Product {
+  id Int @id @default(autoincrement())
+  enabled Boolean @default(false)
+  name String
+  slug String
+  use_in_menu Boolean @default(false)
+  stock Int  @default(0)
+  description String
+  price Float
+  price_with_discount Float
+  images  ProductImage[]
+}
+
+//Tabela 04 em prisma
+
+model ProductImage {
+  id Int @id @default(autoincrement())
+  product_id Int
+  enabled Boolean @default(false)
+  path String
+  product  Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
