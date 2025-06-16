@@ -1,0 +1,7 @@
+model Categoria{
+id Int @id @default(autoincrement())
+name String
+slug String 
+use_in_menu Boolean? @default(false) 
+
+}
