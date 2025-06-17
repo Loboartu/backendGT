@@ -1,92 +1,40 @@
-// prisma/schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgres"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// Modelo para a entidade Usuario
-// Representa a tabela 'Usuario' no banco de dados
-model Usuario {
-  id        Int     @id @default(autoincrement()) // Chave primária, autoincrementada
-  firstname String  // Primeiro nome, tipo texto
-  surname   String  // Sobrenome, tipo texto
-  email     String  @unique // Endereço de email, deve ser único
-  password  String  // Senha do usuário (armazenaremos o hash aqui)
-  createdAt DateTime @default(now()) // Data e hora de criação do registro
-  updatedAt DateTime @updatedAt  // Data e hora da última atualização do registro
+//Tabela 03
+
+model Product {
+  id Int @id @default(autoincrement())
+  enabled Boolean @default(false)
+  name String
+  slug String
+  use_in_menu Boolean @default(false)
+  stock Int  @default(0)
+  description String
+  price Float 
+  price_with_discount Float
+  images  ProductImage[]
 }
 
-// Modelo para a entidade Categoria
-// Representa a tabela 'Categoria' no banco de dados
-model Categoria {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique // Nome da categoria, deve ser único
-  slug        String    @unique // Slug da categoria (para URLs amigáveis), deve ser único
-  use_in_menu Boolean   @default(false) // Define se a categoria aparece no menu (padrão: false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  produtos    Produto[] // Relação muitos-para-muitos: Uma categoria pode ter muitos produtos
+//Tabela 04
+
+model ProductImage {
+  id Int @id @default(autoincrement())
+  product_id Int
+  enabled Boolean @default(false)
+  path String
+  product  Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
-// Modelo para a entidade Produto
-// Representa a tabela 'Produto' no banco de dados
-model Produto {
-  id                Int       @id @default(autoincrement())
-  enabled           Boolean   @default(false) // Se o produto está ativo/habilitado (padrão: false)
-  name              String    @unique // Nome do produto, deve ser único
-  slug              String    @unique // Slug do produto, deve ser único
-  stock             Int       @default(0)   // Quantidade em estoque (padrão: 0)
-  description       String?   // Descrição do produto (opcional)
-  price             Float     // Preço do produto
-  price_with_discount Float?  // Preço com desconto (opcional)
-  // Relação muitos-para-muitos com Categoria (Requisito 06 do documento original)
-  // O Prisma cria uma tabela de junção (join table) automaticamente para gerenciar essa relação N-N
-  categories        Categoria[]
-  // Relação One-to-Many (1-N) com Imagens do Produto (Requisito 04 do documento original)
-  // Um produto pode ter muitas imagens (imagensProduto)
-  imagensProduto    ImagemProduto[]
-  // Relação One-to-Many (1-N) com Opções do Produto (Requisito 05 do documento original)
-  // Um produto pode ter muitas opções (opcoesProduto)
-  opcoesProduto     OpcaoProduto[]
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-}
-
-// Modelo para a entidade ImagemProduto
-// Representa a tabela de imagens para cada produto (Requisito 04 do documento original)
-model ImagemProduto {
-  id         Int     @id @default(autoincrement())
-  productId  Int     // Chave estrangeira que linka esta imagem a um Produto específico
-  enabled    Boolean @default(false) // Se a imagem está habilitada (padrão: false)
-  path       String  // Caminho ou URL da imagem (obrigatório)
-  // Define a relação N:1 (muitas imagens para um Produto)
-  // 'fields: [productId]' aponta para a coluna de chave estrangeira neste modelo
-  // 'references: [id]' aponta para a chave primária do modelo 'Produto'
-  produto    Produto @relation(fields: [productId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  // Cria um índice na coluna 'productId' para otimizar consultas (melhora a busca de imagens de um produto)
-  @@index([productId])
-}
-
-// Modelo para a entidade OpcaoProduto
-// Representa a tabela de opções para cada produto (Requisito 05 do documento original)
-model OpcaoProduto {
-  id         Int     @id @default(autoincrement())
-  productId  Int     // Chave estrangeira que linka esta opção a um Produto específico
-  title      String  // Título da opção (ex: "Cor", "Tamanho")
-  shape      String  @default("square") // Formato da opção (ex: "square", "circle" - validado no código)
-  radius     Int     @default(0)       // Valor do border-radius (padrão: 0)
-  type       String  @default("text")  // Tipo de input (ex: "text", "color" - validado no código)
-  values     String  // Opções separadas por vírgula (ex: "P,M,G" ou "#FF0000,#0000FF")
-  // Define a relação N:1 (muitas opções para um Produto)
-  produto    Produto @relation(fields: [productId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  // Cria um índice na coluna 'productId' para otimizar consultas
-  @@index([productId])
-}
