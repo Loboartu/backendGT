@@ -23,7 +23,7 @@ model Product {
   use_in_menu Boolean @default(false)
   stock Int  @default(0)
   description String
-  price Float
+  price Float 
   price_with_discount Float
   images  ProductImage[]
 }
@@ -37,5 +37,4 @@ model ProductImage {
   path String
   product  Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
-
 
