@@ -17,7 +17,7 @@ async function criarUsuario(req, res) {
             required: ['firstname', 'surname', 'email', 'password']
         });
     }
-}
+
     try {
         // Chama o serviço para executar a lógica de criação (hash de senha, salvar no banco)
         const novoUsuario = await usuarioService.criarUsuario(firstname, surname, email, password);
@@ -38,7 +38,7 @@ async function criarUsuario(req, res) {
             details: error.message
         });
     }
-
+}
 /**
  * Obtém informações de um usuário pelo ID.
  * @function obterUsuarioPorId
