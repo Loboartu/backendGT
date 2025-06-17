@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//Tabela 03
+
+model Product {
+  id Int @id @default(autoincrement())
+  enabled Boolean @default(false)
+  name String
+  slug String
+  use_in_menu Boolean @default(false)
+  stock Int  @default(0)
+  description String
+  price Float 
+  price_with_discount Float
+  images  ProductImage[]
+}
+
+//Tabela 04
+
+model ProductImage {
+  id Int @id @default(autoincrement())
+  product_id Int
+  enabled Boolean @default(false)
+  path String
+  product  Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
+
