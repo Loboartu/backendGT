@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "Product" (
     "id" SERIAL NOT NULL,
     "enabled" BOOLEAN NOT NULL DEFAULT false,
@@ -13,7 +12,6 @@ CREATE TABLE "Product" (
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "ProductImage" (
     "id" SERIAL NOT NULL,
     "product_id" INTEGER NOT NULL,
@@ -23,5 +21,5 @@ CREATE TABLE "ProductImage" (
     CONSTRAINT "ProductImage_pkey" PRIMARY KEY ("id")
 );
 
--- AddForeignKey
+
 ALTER TABLE "ProductImage" ADD CONSTRAINT "ProductImage_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
