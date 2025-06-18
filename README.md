@@ -1,4 +1,4 @@
-Projeto de API RESTful com Node.js, Express e Prisma
+Projeto de API em backend com Node.js, Express e Prisma.
 
 
 ├── prisma/
@@ -45,7 +45,7 @@ JWT (para autenticação)
 bash
 Copiar
 Editar
-git clone https://github.com/usuario/repositorio.git
+git clone https://github.com/Loboartu/backendGT.git
 cd repositorio
 2. Instale as dependências
 bash
@@ -80,8 +80,8 @@ Editar
 npm run dev
 A API estará disponível em: http://localhost:3000
 
-✅ Funcionalidades
- CRUD completo de produtos
+✅ Funcionalidades esperadas
+ CRUD de produtos
 
  Autenticação de usuários (JWT)
 
@@ -100,12 +100,11 @@ bash
 Copiar
 Editar
 npm test
+
 ☁️ Deploy
 Você pode fazer o deploy em plataformas como:
-
-Render
 
 Vercel (com serverless functions)
 
 
-Para deploy com banco PostgreSQL, lembre-se de configurar as variáveis de ambiente corretamente.
+
