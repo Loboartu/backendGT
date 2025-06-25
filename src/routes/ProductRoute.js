@@ -2,7 +2,7 @@ const router = require('express').Router()
 const productController = require("../controllers/productController")
 const authMiddleware = require('../middleware/authMiddleware.js')
 
-// router.use(authMiddleware)
+// route.use(authMiddleware)
 
 router.get("/", productController.listarProdutos)
 router.get("/:id", productController.buscarProduto)

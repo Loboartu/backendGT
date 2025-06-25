@@ -1,9 +1,9 @@
 // src/services/usuarioService.js
-const usuarioRepository = require('../repositories/usuarioRepository'); // Importa o repositório de usuário
-const bcrypt = require('bcryptjs'); // Importa a biblioteca para hashing de senhas
+const usuarioRepository = require('../repositories/usuarioRepository');
+const bcrypt = require('bcryptjs');
 
 /**
- * Serviço para lógica de negócio da entidade Usuário.
+ * 
  * @class UsuarioService
  */
 class UsuarioService {
@@ -46,4 +46,4 @@ class UsuarioService {
     }
 }
 
-module.exports = new UsuarioService(); // Exporta uma instância única do serviço
+module.exports = new UsuarioService(); 

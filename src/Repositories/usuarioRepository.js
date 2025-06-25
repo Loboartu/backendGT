@@ -1,6 +1,6 @@
 // src/repositories/usuarioRepository.js
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient(); // Instância única do PrismaClient para o repositório
+const prisma = new PrismaClient(); 
 
 class UsuarioRepository {
     async create(userData) { return prisma.usuario.create({ data: userData }); }
@@ -10,4 +10,4 @@ class UsuarioRepository {
     async delete(id) { return prisma.usuario.delete({ where: { id: parseInt(id) } }); }
 }
 
-module.exports = new UsuarioRepository(); // Exporta uma instância única do repositório
+module.exports = new UsuarioRepository(); 
