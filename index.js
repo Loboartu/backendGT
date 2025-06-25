@@ -1,11 +1,10 @@
 const express = require("express")
 const cors = require("cors")
-const ProductRoute = require("./src/Routes/ProductRoute")
+const productRoute = require('./src/Routes/productRoutes');
 const usuarioRoutes = require('./src/Routes/usuarioRoutes')
 const categoriaRoutes = require('./src/Routes/categoriaRoutes')
 require("dotenv").config() 
 
-// const produtoRoutes = require('./routes/produtoRoutes');
 const authRoutes = require('./src/Routes/authRoutes'); 
 
 const app = express()
@@ -22,7 +21,7 @@ app.use(
   })
 )
 
-app.use('/v1/product', ProductRoute);
+app.use('/v1/product', productRoute);
 
 app.use('/api/v1', usuarioRoutes);
 
