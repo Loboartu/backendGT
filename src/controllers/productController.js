@@ -1,4 +1,4 @@
-const {listarProdutosService, buscarProdutoService, criarProdutoService, atualizarProdutoService, deletarProdutoService} = require("../Services/productService")
+const {listarProdutosService, buscarProdutoService, criarProdutoService, atualizarProdutoService, deletarProdutoService} = require("../services/productService")
 
 async function listarProdutos(req, res) {
   const { page, limit } = req.query
