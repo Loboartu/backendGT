@@ -1,26 +1,54 @@
 // ProdutoController.test.js
-const { listarProdutos } = require('../src/controllers/ProdutoController')
-const ProdutoService = require('../src/services/ProductService')
+const productController = require("../controllers/productController.js");
+const prisma = require("../config/prisma.js");
 
-jest.mock('../src/services/ProductService')
+describe("Controller - criar produto", () => {
+  let produtoCriadoId;
 
-describe('listarProdutos', () => {
-  it('deve retornar 200 com a lista de produtos', async () => {
-    const req = { query: { page: '1', limit: '10' } }
+  afterAll(async () => {
+    
+    if (produtoCriadoId) {
+      await prisma.product.delete({
+        where: { id: produtoCriadoId }
+      });
+    }
+
+    await prisma.$disconnect();
+  });
+
+  it("deve criar um produto com sucesso", async () => {
+    const req = {
+      body: {
+        name: "Produto Teste",
+        description: "Descrição teste",
+        price: 100,
+        price_with_discount: 90,
+        stock: 10,
+        category_id: 1 
+      }
+    };
+
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
-    }
+    };
 
-    ProdutoService.listarProdutosService.mockResolvedValue([
-      { id: 1, nome: 'Camisa', preco: 99.9 }
-    ])
+    await productController.criarProduto(req, res);
 
-    await listarProdutos(req, res)
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Produto criado com sucesso"
+    });
 
-    expect(res.status).toHaveBeenCalledWith(200)
-    expect(res.json).toHaveBeenCalledWith([
-      { id: 1, nome: 'Camisa', preco: 99.9 }
-    ])
-  })
-})
+    
+    const produto = await prisma.product.findFirst({
+      where: { name: "Produto Teste" }
+    });
+
+    expect(produto).not.toBeNull();
+    expect(produto.name).toBe("Produto Teste");
+
+    
+    produtoCriadoId = produto.id;
+  });
+});
